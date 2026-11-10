@@ -1,0 +1,63 @@
+@import "tailwindcss";
+@import "@fontsource-variable/jost";
+@import "@fontsource-variable/manrope";
+
+@theme {
+  --font-display: "Jost Variable", "Jost", sans-serif;
+  --font-sans: "Manrope Variable", "Manrope", system-ui, sans-serif;
+
+  --color-ink: #0b0b0b;
+  --color-paper: #f4f2ee;
+  --color-panel: #161616;
+  --color-line: #1f1f1f;
+  --color-line-strong: #262626;
+  --color-line-light: #cfccc5;
+  --color-mute: #8a8a8a;
+  --color-soft: #b5b5b5;
+  --color-dim: #5e5e5e;
+  --color-body-light: #4a4a4a;
+  --color-accent: #8fb59a;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink text-paper font-sans antialiased;
+    line-height: 1.6;
+  }
+  ::selection {
+    @apply bg-paper text-ink;
+  }
+}
+
+@utility container-x {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 72px);
+}
+
+@utility section-y {
+  padding-block: clamp(72px, 9vw, 140px);
+}
+
+@utility eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+@utility h-display {
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: clamp(36px, 4.6vw, 68px);
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@utility outline-8 {
+  color: transparent;
+  -webkit-text-stroke: 1px #2e2e2e;
+}
