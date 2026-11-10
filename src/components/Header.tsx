@@ -1,11 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { contacts, nav } from "@/lib/data";
 import { LogoMark } from "./Logo";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+
+  // While the overlay menu is open: lock page scroll, close on Escape or when resized to desktop.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onMq = () => mq.matches && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onMq);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onMq);
+    };
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-ink/90 backdrop-blur">
@@ -51,7 +68,11 @@ export function Header() {
       </div>
 
       {open && (
-        <nav id="mobile-menu" aria-label="Мобильное меню" className="container-x flex flex-col border-t border-line pb-6 lg:hidden">
+        <nav
+          id="mobile-menu"
+          aria-label="Мобильное меню"
+          className="container-x absolute inset-x-0 top-full flex h-[calc(100dvh-100%)] flex-col overflow-y-auto border-t border-line bg-ink pb-8 lg:hidden"
+        >
           {nav.map((item) => (
             <a
               key={item.href}
